@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityConnect – Community Event Portal</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Task 14 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Georgia, serif;
+            background: #f0f4f0;
+            color: #1a2e1a;
+            line-height: 1.7;
+        }
+
+        header {
+            background: #1a4a1a;
+            color: #fff;
+            padding: 24px 32px;
+            text-align: center;
+        }
+
+        header h1 { font-size: 2rem; margin-bottom: 6px; }
+        header p  { color: #c8e6c9; font-size: 0.95rem; }
+
+        nav {
+            background: #145214;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px 16px;
+        }
+
+        nav a {
+            color: #c8e6c9;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        nav a:hover { background: #2e7d32; color: #fff; }
+
+        main { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
+
+        section {
+            background: #fff;
+            border: 1.5px solid #a5d6a7;
+            border-radius: 10px;
+            padding: 28px 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 10px rgba(46,125,50,0.08);
+        }
+
+        section h2 {
+            font-size: 1.4rem;
+            color: #1a4a1a;
+            border-bottom: 2px solid #a5d6a7;
+            padding-bottom: 8px;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 0.88rem;
+            margin-bottom: 4px;
+            color: #1a4a1a;
+            margin-top: 12px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #a5d6a7;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            font-family: Georgia, serif;
+            background: #f9fdf9;
+            margin-bottom: 4px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 3px solid #2e7d32;
+            border-color: #2e7d32;
+        }
+
+        button {
+            background: #2e7d32;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        button:hover { background: #1b5e20; }
+
+        .btn-secondary {
+            background: #757575;
+            margin-left: 8px;
+        }
+
+        .btn-secondary:hover { background: #424242; }
+
+        .btn-danger {
+            background: #c62828;
+            margin-left: 8px;
+        }
+
+        .btn-danger:hover { background: #b71c1c; }
+
+        .error-msg {
+            color: #c62828;
+            font-size: 0.82rem;
+            display: none;
+            margin-top: 2px;
+        }
+
+        .success-msg {
+            background: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 14px;
+            display: none;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background: #f1f8e9;
+            border: 1px solid #c5e1a5;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            font-size: 0.93rem;
+        }
+
+        /* Event cards */
+        #eventList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .event-card {
+            background: #f9fdf9;
+            border: 1.5px solid #a5d6a7;
+            border-radius: 8px;
+            padding: 18px;
+            position: relative;
+        }
+
+        .event-card h3 { color: #1a4a1a; margin-bottom: 6px; font-size: 1rem; }
+        .event-card p  { font-size: 0.85rem; color: #3b4f3b; margin-bottom: 4px; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .badge-music    { background: #e3f2fd; color: #1565c0; }
+        .badge-sports   { background: #fff3e0; color: #e65100; }
+        .badge-art      { background: #fce4ec; color: #880e4f; }
+        .badge-festival { background: #f3e5f5; color: #6a1b9a; }
+        .badge-market   { background: #e8f5e9; color: #1b5e20; }
+
+        .seats-full { color: #c62828; font-weight: bold; }
+        .seats-ok   { color: #2e7d32; font-weight: bold; }
+
+        .register-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 8px;
+        }
+
+        /* Spinner */
+        #spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Search */
+        #searchInput {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #a5d6a7;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        /* Seats counter */
+        #seatDisplay {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #1a4a1a;
+            margin: 8px 0;
+        }
+
+        /* Async status */
+        #asyncStatus {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        /* jQuery fade demo */
+        .jq-card {
+            background: #e8f5e9;
+            border: 1.5px solid #a5d6a7;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            font-size: 0.93rem;
+        }
+
+        footer {
+            background: #1a4a1a;
+            color: #c8e6c9;
+            text-align: center;
+            padding: 22px;
+            font-size: 0.88rem;
+            margin-top: 40px;
+        }
+
+        footer a { color: #81c784; }
+
+        @media (max-width: 768px) {
+            main { padding: 0 12px; }
+            section { padding: 18px 16px; }
+            #eventList { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Task 1 -->
+<header>
+    <h1>&#127963; CityConnect – Community Event Portal</h1>
+    <p>Salem City Council – Connecting residents with local events</p>
+</header>
+
+<!-- Task 6 -->
+<nav>
+    <a href="#task1">Basics</a>
+    <a href="#task2">Data Types</a>
+    <a href="#task3">Conditions</a>
+    <a href="#task4">Functions</a>
+    <a href="#task5">Objects</a>
+    <a href="#task6">Arrays</a>
+    <a href="#task7">DOM</a>
+    <a href="#task8">Events</a>
+    <a href="#task9">Async</a>
+    <a href="#task10">ES6</a>
+    <a href="#task11">Forms</a>
+    <a href="#task12">AJAX</a>
+    <a href="#task13">Debug</a>
+    <a href="#task14">jQuery</a>
+</nav>
+
+<main>
+
+    <!-- Task 1 -->
+    <section id="task1">
+        <h2>Task 1 – JavaScript Basics &amp; Setup</h2>
+        <div class="info-box">
+            JavaScript is linked via <code>&lt;script src="main.js"&gt;&lt;/script&gt;</code> at the bottom of this page.
+            On load, an alert fires and a message is logged to the console.
+        </div>
+        <button onclick="task1Demo()">&#9654; Run Console Log</button>
+        <div id="task1Output" class="success-msg"></div>
+    </section>
+
+    <!-- Task 2 -->
+    <section id="task2">
+        <h2>Task 2 – Syntax, Data Types &amp; Operators</h2>
+        <div class="info-box" id="task2Info">
+            Event: <strong>Annual City Festival</strong> | Date: <strong>15 Aug 2025</strong> | Seats: <strong id="seatCount">50</strong>
+        </div>
+        <div id="seatDisplay">Seats available: <span id="seatNum">50</span></div>
+        <button onclick="addSeat()">+ Add Seat (++)</button>
+        <button class="btn-danger" onclick="removeSeat()">− Remove Seat (−−)</button>
+        <div id="task2Output" style="margin-top:10px; color:#1a4a1a;"></div>
+    </section>
+
+    <!-- Task 3 -->
+    <section id="task3">
+        <h2>Task 3 – Conditionals, Loops &amp; Error Handling</h2>
+        <div class="info-box">
+            Events with past dates or 0 seats are hidden. Registration wrapped in try-catch.
+        </div>
+        <div id="task3EventList"></div>
+        <button onclick="task3Register('Workshop on Baking', 10)">Register for Workshop on Baking</button>
+        <button class="btn-danger" onclick="task3Register('Old Event 2020', 0)">Try Full/Past Event</button>
+        <div id="task3Output" class="success-msg" style="display:none;"></div>
+    </section>
+
+    <!-- Task 4 -->
+    <section id="task4">
+        <h2>Task 4 – Functions, Scope, Closures &amp; Higher-Order Functions</h2>
+        <div class="info-box" id="task4Info">
+            Uses addEvent(), registerUser(), filterEventsByCategory() and a closure to track category registrations.
+        </div>
+        <label for="filterCategory4">Filter by Category:</label>
+        <select id="filterCategory4" onchange="task4Filter()">
+            <option value="all">All</option>
+            <option value="music">Music</option>
+            <option value="sports">Sports</option>
+            <option value="art">Art</option>
+            <option value="festival">Festival</option>
+            <option value="market">Market</option>
+        </select>
+        <div id="task4Output" style="margin-top:12px;"></div>
+        <button onclick="task4AddEvent()">+ Add Sample Event (addEvent)</button>
+        <button class="btn-secondary" onclick="task4Register()">Register User (closure counter)</button>
+        <div id="task4Counter" style="margin-top:10px; font-weight:bold; color:#1a4a1a;"></div>
+    </section>
+
+    <!-- Task 5 -->
+    <section id="task5">
+        <h2>Task 5 – Objects &amp; Prototypes</h2>
+        <div class="info-box">
+            Event objects built with a constructor. checkAvailability() added to prototype. Object.entries() used to list properties.
+        </div>
+        <button onclick="task5Demo()">&#9654; Show Object Details</button>
+        <pre id="task5Output" style="background:#f1f8e9;padding:14px;border-radius:6px;margin-top:12px;font-size:0.88rem;white-space:pre-wrap;display:none;"></pre>
+    </section>
+
+    <!-- Task 6 -->
+    <section id="task6">
+        <h2>Task 6 – Arrays &amp; Methods</h2>
+        <div class="info-box">
+            .push() adds events · .filter() shows only music events · .map() formats display cards
+        </div>
+        <button onclick="task6Push()">push() – Add New Event</button>
+        <button class="btn-secondary" onclick="task6Filter()">filter() – Music Only</button>
+        <button class="btn-secondary" onclick="task6Map()">map() – Format Cards</button>
+        <div id="task6Output" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- Task 7 -->
+    <section id="task7">
+        <h2>Task 7 – DOM Manipulation</h2>
+        <div class="info-box">
+            Events rendered dynamically using createElement() and appendChild(). Register/Cancel updates the UI live.
+        </div>
+        <div id="eventList"></div>
+    </section>
+
+    <!-- Task 8 -->
+    <section id="task8">
+        <h2>Task 8 – Event Handling</h2>
+        <div class="info-box">
+            onclick on Register buttons · onchange filter by category · keydown for quick search
+        </div>
+        <input type="text" id="searchInput" placeholder="&#128269; Type to search events by name (keydown)..." onkeydown="task8Search(event)">
+        <label for="categoryFilter">Filter by Category (onchange):</label>
+        <select id="categoryFilter" onchange="task8Filter()">
+            <option value="all">All Categories</option>
+            <option value="music">Music</option>
+            <option value="sports">Sports</option>
+            <option value="art">Art</option>
+            <option value="festival">Festival</option>
+            <option value="market">Market</option>
+        </select>
+        <div id="task8List" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- Task 9 -->
+    <section id="task9">
+        <h2>Task 9 – Async JS, Promises &amp; Async/Await</h2>
+        <div class="info-box">
+            Fetches mock event data from a public JSON API. Shows .then()/.catch() and async/await with a loading spinner.
+        </div>
+        <button onclick="task9Promise()">Fetch with .then() / .catch()</button>
+        <button class="btn-secondary" onclick="task9Async()">Fetch with async / await</button>
+        <div id="spinner">&#9696; Loading events...</div>
+        <div id="asyncStatus"></div>
+        <div id="task9Output" style="margin-top:12px;"></div>
+    </section>
+
+    <!-- Task 10 -->
+    <section id="task10">
+        <h2>Task 10 – Modern JavaScript (ES6+)</h2>
+        <div class="info-box">
+            let/const · default parameters · destructuring · spread operator to clone before filtering
+        </div>
+        <button onclick="task10Demo()">&#9654; Run ES6 Demo</button>
+        <pre id="task10Output" style="background:#f1f8e9;padding:14px;border-radius:6px;margin-top:12px;font-size:0.88rem;white-space:pre-wrap;display:none;"></pre>
+    </section>
+
+    <!-- Task 11 -->
+    <section id="task11">
+        <h2>Task 11 – Working with Forms</h2>
+        <div class="info-box">
+            Captures name, email, event using form.elements · preventDefault() · inline validation errors
+        </div>
+        <form id="registrationForm" onsubmit="task11Submit(event)">
+            <label for="regName">Full Name *</label>
+            <input type="text" id="regName" name="regName" placeholder="e.g. Priya Ramesh">
+            <span class="error-msg" id="nameError">Name is required.</span>
+
+            <label for="regEmail">Email Address *</label>
+            <input type="email" id="regEmail" name="regEmail" placeholder="you@example.com">
+            <span class="error-msg" id="emailError">Valid email is required.</span>
+
+            <label for="regEvent">Select Event *</label>
+            <select id="regEvent" name="regEvent">
+                <option value="">-- Choose an event --</option>
+                <option value="festival">Annual City Festival</option>
+                <option value="sports">Sports Day</option>
+                <option value="art">Art Exhibition</option>
+                <option value="concert">Summer Concert</option>
+                <option value="market">Farmers Market</option>
+            </select>
+            <span class="error-msg" id="eventError">Please select an event.</span>
+
+            <button type="submit">Submit Registration</button>
+            <button type="reset" class="btn-secondary">Reset</button>
+        </form>
+        <div id="task11Output" class="success-msg"></div>
+    </section>
+
+    <!-- Task 12 -->
+    <section id="task12">
+        <h2>Task 12 – AJAX &amp; Fetch API</h2>
+        <div class="info-box">
+            POSTs user data to a mock API · shows success/failure · setTimeout simulates delayed response
+        </div>
+        <button onclick="task12Submit()">&#128228; POST Registration to Mock API</button>
+        <div id="task12Output" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- Task 13 -->
+    <section id="task13">
+        <h2>Task 13 – Debugging &amp; Testing</h2>
+        <div class="info-box">
+            Open DevTools (F12) to inspect. Console logs every step. A deliberate bug is included for breakpoint practice.
+        </div>
+        <button onclick="task13Debug()">&#128030; Run Debug Demo</button>
+        <button class="btn-secondary" onclick="task13BuggyCode()">&#9888; Trigger Buggy Code (try-catch)</button>
+        <pre id="task13Output" style="background:#f1f8e9;padding:14px;border-radius:6px;margin-top:12px;font-size:0.88rem;white-space:pre-wrap;display:none;"></pre>
+        <div class="info-box" style="margin-top:14px;">
+            <strong>DevTools Tips:</strong><br>
+            &bull; Console tab – see all console.log() steps<br>
+            &bull; Sources tab – add breakpoints in main.js<br>
+            &bull; Network tab – watch the fetch() POST in Task 12<br>
+            &bull; Elements tab – inspect rendered event cards
+        </div>
+    </section>
+
+    <!-- Task 14 -->
+    <section id="task14">
+        <h2>Task 14 – jQuery &amp; JS Frameworks</h2>
+        <div class="info-box">
+            jQuery used for click handling, fadeIn(), fadeOut(). React/Vue note included.
+        </div>
+        <button id="registerBtn">&#128072; jQuery Register Click</button>
+        <button id="fadeInBtn" class="btn-secondary" style="margin-left:8px;">fadeIn()</button>
+        <button id="fadeOutBtn" class="btn-secondary" style="margin-left:8px;">fadeOut()</button>
+        <div id="jqCards" style="margin-top:16px;">
+            <div class="jq-card" id="jqCard1">&#127881; Annual City Festival – 15 Aug 2025</div>
+            <div class="jq-card" id="jqCard2">&#127939; Sports Day – 22 Aug 2025</div>
+            <div class="jq-card" id="jqCard3">&#127912; Art Exhibition – 5 Sep 2025</div>
+        </div>
+        <div id="jqOutput" style="margin-top:12px; font-weight:bold; color:#1a4a1a;"></div>
+        <div class="info-box" style="margin-top:16px;">
+            <strong>Frameworks Note:</strong> React and Vue offer component-based architecture,
+            virtual DOM, and state management — making large-scale portals like CityConnect
+            easier to maintain and scale compared to vanilla JS or jQuery.
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2025 CityConnect Community Portal | Built with HTML5, CSS3 &amp; JavaScript</p>
+</footer>
+
+<!-- Task 1 -->
+<script src="main.js"></script>
+
+</body>
+</html>
