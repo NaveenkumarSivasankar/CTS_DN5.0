@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CityConnect – Community Event Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Task 1 -->
+  <header>
+    <h1>&#127963; CityConnect – Community Event Portal</h1>
+    <p>Your one-stop destination for local community events and services.</p>
+
+    <!-- Task 2 -->
+    <nav>
+      <a href="#home">Home</a> |
+      <a href="#events">Events</a> |
+      <a href="#registration">Register</a> |
+      <a href="#media">Media</a> |
+      <a href="#preferences">Preferences</a> |
+      <a href="#location">Nearby</a> |
+      <a href="#contact">Contact</a> |
+      <a href="help.html" target="_blank">Help &#8599;</a>
+    </nav>
+
+    <hr>
+  </header>
+
+  <main>
+
+    <!-- Task 3 -->
+    <section id="home">
+      <h2>&#127968; Home</h2>
+
+      <div id="welcomeBanner" style="background-color:blue; color:white; padding:20px;">
+        <h2>Welcome to CityConnect Portal!</h2>
+        <p>Hello, <b>Resident!</b> We are glad to have you here.</p>
+        <p>
+          Special Offer:
+          <span style="color:red; font-weight:bold;">Free registration for the first 50 residents!</span>
+        </p>
+        <p class="highlight" style="background-color:yellow; color:black; display:inline-block; padding:4px 10px;">
+          &#9888; Registration closes on 31 July 2025!
+        </p>
+      </div>
+
+      <br>
+      <p class="highlight" style="background-color:yellow; color:black; display:inline-block; padding:4px 10px;">
+        &#128197; Next Big Event: <b>Annual City Festival – 15 August 2025</b>
+      </p>
+    </section>
+
+    <hr>
+
+    <!-- Task 4 -->
+    <section id="events">
+      <h2>&#128248; Community Event Gallery</h2>
+      <p>Double-click any image to enlarge it.</p>
+
+      <table border="1" cellpadding="10" cellspacing="5">
+        <caption><b>Photo Gallery – Past Community Events 2024</b></caption>
+        <tr>
+          <td align="center">
+            <img src="https://picsum.photos/seed/festival/280/180"
+              alt="Annual City Festival – crowds enjoy live music on the main stage" title="Annual City Festival"
+              class="event-img" width="280" height="180" style="border:3px solid teal;"
+              ondblclick="this.style.width=this.style.width=='450px'?'280px':'450px';">
+            <br>
+            <small>Annual City Festival</small>
+          </td>
+          <td align="center">
+            <img src="https://picsum.photos/seed/cleanup/280/180"
+              alt="Community clean-up day – volunteers collecting litter in the park" title="Community Clean-Up Day"
+              class="event-img" width="280" height="180" style="border:3px solid teal;"
+              ondblclick="this.style.width=this.style.width=='450px'?'280px':'450px';">
+            <br>
+            <small>Community Clean-Up Day</small>
+          </td>
+          <td align="center">
+            <img src="https://picsum.photos/seed/market/280/180"
+              alt="Farmers market – local produce stalls along the high street" title="Farmers Market" class="event-img"
+              width="280" height="180" style="border:3px solid teal;"
+              ondblclick="this.style.width=this.style.width=='450px'?'280px':'450px';">
+            <br>
+            <small>Farmers Market</small>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <img src="https://picsum.photos/seed/sports/280/180" alt="Sports day – children competing in a relay race"
+              title="Annual Sports Day" class="event-img" width="280" height="180" style="border:3px solid teal;"
+              ondblclick="this.style.width=this.style.width=='450px'?'280px':'450px';">
+            <br>
+            <small>Annual Sports Day</small>
+          </td>
+          <td align="center">
+            <img src="https://picsum.photos/seed/art/280/180"
+              alt="Art exhibition – paintings displayed in the community hall" title="Art Exhibition" class="event-img"
+              width="280" height="180" style="border:3px solid teal;"
+              ondblclick="this.style.width=this.style.width=='450px'?'280px':'450px';">
+            <br>
+            <small>Art Exhibition</small>
+          </td>
+          <td align="center">
+            <img src="https://picsum.photos/seed/concert/280/180"
+              alt="Evening concert – orchestra performing in the open air" title="Summer Concert" class="event-img"
+              width="280" height="180" style="border:3px solid teal;"
+              ondblclick="this.style.width=this.style.width=='450px'?'280px':'450px';">
+            <br>
+            <small>Summer Concert</small>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- Task 5 -->
+    <section id="registration">
+      <h2>&#128221; Event Registration Form</h2>
+      <p>All fields marked <b>*</b> are required.</p>
+
+      <form name="registrationForm" onsubmit="return false;">
+
+        <label for="fullName"><b>Full Name *</b></label><br>
+        <input type="text" id="fullName" name="fullName" placeholder="e.g. Priya Ramesh" required autofocus size="40">
+        <br><br>
+
+        <label for="emailAddr"><b>Email Address *</b></label><br>
+        <input type="email" id="emailAddr" name="emailAddr" placeholder="you@example.com" required size="40">
+        <br><br>
+
+        <label for="eventDate"><b>Preferred Date *</b></label><br>
+        <input type="date" id="eventDate" name="eventDate" required>
+        <br><br>
+
+        <!-- Task 6 -->
+        <label for="phone"><b>Phone Number</b></label><br>
+        <input type="tel" id="phone" name="phone" placeholder="10-digit number" size="40" onblur="
+          var digits = this.value.replace(/\D/g,'');
+          var err = document.getElementById('phoneError');
+          if(this.value !== '' && digits.length !== 10){
+            err.style.display='inline';
+            this.style.borderColor='red';
+          } else {
+            err.style.display='none';
+            this.style.borderColor='green';
+          }
+        ">
+        <span id="phoneError" style="color:red; display:none;">
+          &#9888; Enter a valid 10-digit phone number.
+        </span>
+        <br><br>
+
+        <!-- Task 6 -->
+        <label for="eventType"><b>Event Type *</b></label><br>
+        <select id="eventType" name="eventType" required onchange="
+          var fees = {festival:'Free',sports:'Rs.50',art:'Rs.100',concert:'Rs.200',market:'Free'};
+          var feeEl = document.getElementById('eventFeeDisplay');
+          if(this.value){
+            feeEl.innerHTML = '&nbsp;&nbsp;<b>Registration Fee: ' + fees[this.value] + '</b>';
+          } else {
+            feeEl.innerHTML = '';
+          }
+        ">
+          <option value="">-- Select an event --</option>
+          <option value="festival">Annual City Festival</option>
+          <option value="sports">Sports Day</option>
+          <option value="art">Art Exhibition</option>
+          <option value="concert">Summer Concert</option>
+          <option value="market">Farmers Market</option>
+        </select>
+        <span id="eventFeeDisplay" style="color:green;"></span>
+        <br><br>
+
+        <!-- Task 6 -->
+        <label for="message"><b>Message / Special Requirements</b></label><br>
+        <textarea id="message" name="message" rows="5" cols="50" placeholder="Any accessibility needs or queries..."
+          onkeyup="
+          var len = this.value.length;
+          if(len > 300) this.value = this.value.substring(0,300);
+          document.getElementById('charCount').innerText = Math.min(len,300) + ' / 300 characters';
+        "></textarea>
+        <br>
+        <small id="charCount">0 / 300 characters</small>
+        <br><br>
+
+        <!-- Task 6 -->
+        <input type="button" value="Submit Registration" onclick="
+          var name  = document.getElementById('fullName').value.trim();
+          var email = document.getElementById('emailAddr').value.trim();
+          var date  = document.getElementById('eventDate').value;
+          var sel   = document.getElementById('eventType');
+          var event = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+          var out   = document.getElementById('confirmationOutput');
+          if(!name || !email || !sel.value || !date){
+            alert('Please fill in all required fields.');
+            return;
+          }
+          out.style.display='block';
+          out.innerHTML='<b style=color:green>Thank you, '+name+'! You are registered for &quot;'+event+'&quot; on '+date+'. Confirmation will be sent to '+email+'.</b>';
+        ">
+        &nbsp;
+        <input type="reset" value="Reset Form">
+        <br><br>
+
+        <!-- Task 5 -->
+        <output id="confirmationOutput" for="fullName emailAddr eventType"
+          style="display:none; background-color:#e8f5e9; padding:10px; border-left:4px solid green;"></output>
+
+      </form>
+    </section>
+
+    <hr>
+
+    <!-- Task 7 -->
+    <section id="media">
+      <h2>&#127909; Event Promo Video</h2>
+      <p>Watch our latest community highlight reel.</p>
+
+      <video id="promoVideo" width="640" height="360" controls
+        poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg"
+        oncanplay="document.getElementById('videoStatus').innerHTML='<b style=color:green>&#10003; Video is ready to play!</b>';"
+        onplay="document.getElementById('videoStatus').innerHTML='<b style=color:blue>&#9654; Playing...</b>';"
+        onpause="document.getElementById('videoStatus').innerHTML='<b style=color:orange>&#9646;&#9646; Paused.</b>';"
+        onended="document.getElementById('videoStatus').innerHTML='<b style=color:gray>&#9632; Video ended.</b>';">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        <source src="https://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
+        Your browser does not support the HTML5 video element.
+      </video>
+
+      <br>
+      <p id="videoStatus"><i>Loading video...</i></p>
+
+      <script>
+        window.onbeforeunload = function () {
+          var name = document.getElementById('fullName').value;
+          var email = document.getElementById('emailAddr').value;
+          var out = document.getElementById('confirmationOutput');
+          if ((name || email) && out.style.display === 'none') {
+            return 'You have an unfinished registration form. Are you sure you want to leave?';
+          }
+        };
+      </script>
+    </section>
+
+    <hr>
+
+    <!-- Task 8 -->
+    <section id="preferences">
+      <h2>&#9881; Save Your Preferences</h2>
+      <p>Your preferred event type is saved locally and restored on your next visit.</p>
+
+      <label for="prefEvent"><b>Preferred Event Type:</b></label><br>
+      <select id="prefEvent" onchange="
+        var val = this.value;
+        if(val){
+          localStorage.setItem('preferredEvent', val);
+          sessionStorage.setItem('sessionEvent', val);
+          document.getElementById('prefStatus').innerHTML='<b style=color:green>Preference saved: ' + val + '</b>';
+        }
+      ">
+        <option value="">-- Choose --</option>
+        <option value="festival">Annual City Festival</option>
+        <option value="sports">Sports Day</option>
+        <option value="art">Art Exhibition</option>
+        <option value="concert">Summer Concert</option>
+        <option value="market">Farmers Market</option>
+      </select>
+
+      <br><br>
+
+      <input type="button" value="Clear Preferences" onclick="
+        localStorage.clear();
+        sessionStorage.clear();
+        document.getElementById('prefEvent').value='';
+        document.getElementById('prefStatus').innerHTML='<b style=color:red>All preferences cleared.</b>';
+      ">
+
+      <br><br>
+      <p id="prefStatus"></p>
+
+      <script>
+        (function () {
+          var saved = localStorage.getItem('preferredEvent');
+          var sel = document.getElementById('prefEvent');
+          var status = document.getElementById('prefStatus');
+          if (saved) {
+            sel.value = saved;
+            status.innerHTML = '<b style=color:blue>Restored preference: ' + saved + '</b>';
+          }
+        })();
+      </script>
+    </section>
+
+    <hr>
+
+    <!-- Task 9 -->
+    <section id="location">
+      <h2>&#128205; Find Nearby Events</h2>
+      <p>Click the button below to find community events near your location.</p>
+
+      <input type="button" value="Find Nearby Events" onclick="
+        var resultEl = document.getElementById('geoResult');
+        if (!navigator.geolocation) {
+          resultEl.innerHTML = '<b style=color:red>Geolocation is not supported by your browser.</b>';
+          return;
+        }
+        resultEl.innerHTML = 'Locating you...';
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            var lat = pos.coords.latitude.toFixed(5);
+            var lon = pos.coords.longitude.toFixed(5);
+            var acc = Math.round(pos.coords.accuracy);
+            resultEl.innerHTML =
+              '<b>Your Location:</b><br>' +
+              'Latitude &nbsp;: <b>' + lat + '</b><br>' +
+              'Longitude : <b>' + lon + '</b><br>' +
+              'Accuracy  : &plusmn;' + acc + ' metres<br><br>' +
+              '<b>Nearby Events Found:</b><br>' +
+              '&bull; City Festival &ndash; 1.2 km<br>' +
+              '&bull; Farmers Market &ndash; 2.8 km<br>' +
+              '&bull; Sports Day &ndash; 4.1 km';
+          },
+          function(err) {
+            var msg = '';
+            if      (err.code === 1) msg = 'Location access was denied. Please enable it in browser settings.';
+            else if (err.code === 2) msg = 'Location information is unavailable.';
+            else if (err.code === 3) msg = 'Location request timed out. Please try again.';
+            else                     msg = 'An unknown error occurred.';
+            resultEl.innerHTML = '<b style=color:red>' + msg + '</b>';
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      ">
+
+      <br><br>
+      <div id="geoResult"></div>
+    </section>
+
+    <hr>
+
+    <!-- Task 10 -->
+    <section id="contact">
+      <h2>&#128295; DevTools Debugging Guide</h2>
+      <p>Open Chrome DevTools with <b>F12</b> and try the following:</p>
+
+      <ol>
+        <li><b>Elements panel</b> – Right-click any element and select Inspect. Try changing the background-color of
+          #welcomeBanner live.</li>
+        <li><b>Console panel</b> – View all console.log messages printed by this page (form submit, video events,
+          geolocation results).</li>
+        <li><b>Sources panel</b> – Open the page source, find the script block, and add a breakpoint on any line to
+          inspect variable values on reload.</li>
+        <li><b>Application panel</b> – Go to Storage then Local Storage to see the preferredEvent key saved by Task 8.
+        </li>
+        <li><b>Network panel</b> – Reload the page and watch image and video requests load in real time.</li>
+      </ol>
+
+      <br>
+      <h3>Contact Us</h3>
+      <address>
+        City Council Office, 12 Main Street, Salem – 636001<br>
+        Email: <a href="mailto:events@cityconnect.gov.in">events@cityconnect.gov.in</a><br>
+        Phone: <a href="tel:+914272222222">0427-222-2222</a>
+      </address>
+
+      <script>
+        console.log('CityConnect Portal Loaded');
+        console.log('Task 10 - DevTools Tips:');
+        console.log('  Elements   : Edit styles live in the Elements panel');
+        console.log('  Console    : All events log here (form, video, geo)');
+        console.log('  Sources    : Add breakpoints in the script tags');
+        console.log('  Application: Check LocalStorage for preferredEvent key');
+        console.log('  Network    : Watch image and video requests load');
+        var debugState = {
+          formSubmitted: false,
+          preferenceLoaded: !!localStorage.getItem('preferredEvent'),
+          videoReady: false
+        };
+        console.log('debugState on load:', debugState);
+      </script>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <hr>
+    <p align="center">
+      &copy; 2025 CityConnect Community Portal &nbsp;|&nbsp;
+      <a href="help.html" target="_blank">Help &amp; Support</a>
+      &nbsp;|&nbsp; Built with pure HTML5
+    </p>
+  </footer>
+
+</body>
+
+</html>
